@@ -46,7 +46,7 @@ int check_queens(int i, int j, int *Q, int n){
 int main (void){
   int *Q, P[N]={0}, n;
   int x, y,c,f=0,count=0,S[N]={0};
-  printf("クイーンの数：");
+  printf("Number of queen:");
   scanf("%d",&n);
   Q=calloc(n*n,sizeof(int));
   for(x=0;x<n;x++){
@@ -72,9 +72,9 @@ int main (void){
       S[x+1]=0;
     }
   }
-  printf("成功\n");
+  printf("success\n");
   print_queens(Q,n);
-  printf("試行回数:%d\n",count);
+  printf("Number of trials:%d\n",count);
   free(Q);
   return 0;
 }

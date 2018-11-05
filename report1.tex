@@ -1,0 +1,106 @@
+\documentclass{jsarticle}
+\usepackage{listings}
+\begin{document}
+
+\title{計算モデル論演習Ⅱレポート}
+\subtitle{Nクイーン問題について}
+\auther{平松 亨隆}
+\maketitle
+
+\section{課題1-1}
+\subsection{探索による解法の説明}
+Nクイーン問題とは、4以上である任意の数NのクイーンをN×Nのマスに配置する問題である。しかし、すべてのクイーンは縦・横・斜めのどの方向にもクイーンが存在してはいけない、という制約がある。
+
+この問題の探索による解法を説明する。まず、前提条件として各列各行には一つづつクイーンが存在するはずである。今回は列を基準にしてクイーンを配置していくことにする。
+
+
+
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
+
+     1	#include <stdio.h>
+     2	#include <stdlib.h>
+     3	#define N 30
+     4	
+     5	
+     6	void print_queens(int *Q,int n){
+     7	  int x, y;
+     8	  for(x=0; x<n; x++){
+     9	    for(y=0; y<n; y++){
+    10	      if(Q[x*n+y] == 1)
+    11		printf("● ");
+    12	      else
+    13		printf("□ ");
+    14	    }
+    15	    printf("\n");
+    16	  }
+    17	}
+    18	
+    19	
+    20	int check_queens(int i, int j, int *Q, int n){
+    21	  int x, y;
+    22	  int sum=0;
+    23	  for(x=0; n>x; x++){
+    24	    for(y=0; n>y; y++){
+    25	      if(x==i && y==j){
+    26	      }
+    27	      else if(x==i && Q[x*n+y]==1){
+    28		sum++;
+    29	      }
+    30	      else if(y==j && Q[x*n+y]==1){
+    31		sum++;
+    32	      }
+    33	      else if(i+j==x+y && Q[x*n+y]==1){
+    34		sum++;
+    35	      }
+    36	      else if(i-j==x-y && Q[x*n+y]==1){
+    37		sum++;
+    38	      }
+    39	    }
+    40	  }
+    41	  return sum;
+    42	}
+    43	
+    44	
+    45	
+    46	int main (void){
+    47	  int *Q, P[N]={0}, n;
+    48	  int x, y,c,f=0,count=0,S[N]={0};
+    49	  printf("Number of queen:");
+    50	  scanf("%d",&n);
+    51	  Q=calloc(n*n,sizeof(int));
+    52	  for(x=0;x<n;x++){
+    53	    for(y=P[x];y<n;y++){
+    54	      c=check_queens(x,y,Q,n);
+    55	      if(c==0){
+    56	      if(f==0){
+    57		count++;
+    58		f=1;
+    59	      }
+    60		Q[x*n+y]=1;
+    61		P[x]=y;
+    62	      }
+    63	      S[x]=S[x]+Q[x*n+y];
+    64	    }
+    65	    if(S[x]==0){
+    66	      f=0;
+    67	      P[x]=0;
+    68	      y=P[--x];
+    69	      Q[x*n+y]=0;
+    70	      P[x]++;
+    71	      x=x-1;
+    72	      S[x+1]=0;
+    73	    }
+    74	  }
+    75	  printf("success\n");
+    76	  print_queens(Q,n);
+    77	  printf("Number of trials:%d\n",count);
+    78	  free(Q);
+    79	  return 0;
+    80	}
+
+
+ \end{lstlisting}
+
+
+\end{document}
